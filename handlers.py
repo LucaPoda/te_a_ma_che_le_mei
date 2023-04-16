@@ -1,6 +1,5 @@
 from datetime import *
 
-import telegram
 from telegram import ForceReply, Update, KeyboardButton, ReplyKeyboardMarkup
 from telegram.ext import Application, CommandHandler, ContextTypes, MessageHandler, filters
 import db
