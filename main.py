@@ -65,6 +65,7 @@ def main() -> None:
     application.add_handler(CommandHandler("new_income_past", handlers.new_income_past))
     application.add_handler(CommandHandler("add_category", handlers.new_category))
     application.add_handler(CommandHandler("reset", handlers.reset))
+    application.add_handler(CommandHandler("list_categories", handlers.list_categories))
 
     # on non command i.e message - echo the message on Telegram
     application.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, handlers.default))

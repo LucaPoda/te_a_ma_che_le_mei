@@ -162,7 +162,7 @@ async def new_category(update: Update, context: ContextTypes.DEFAULT_TYPE):
         category_status["last_request"] = "waiting_name"
         await update.message.reply_text("Inserire il nome della categoria:")
     elif category_status["last_request"] == "waiting_name":
-        if update.message.text in db.get_all_categories():
+        if update.message.text in [x[0] for x in db.get_all_categories()]:
             await update.message.reply_text("Questa categoria esiste già.")
             return
 
@@ -192,6 +192,13 @@ async def new_category(update: Update, context: ContextTypes.DEFAULT_TYPE):
     else:
         await update.message.reply_text("Status " + status["last_request"] + " not supported yet.")
         status["last_request"] = "idle"
+
+
+async def list_categories(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    res = "Lista delle categorie:\n"
+    for c in db.get_all_categories():
+        res += c[0] + " - " + c[1] + "\n"
+    await update.message.reply_text(res)
 
 
 async def help(update: Update, context: ContextTypes.DEFAULT_TYPE):

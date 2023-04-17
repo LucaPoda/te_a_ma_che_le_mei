@@ -59,11 +59,7 @@ def get_all_categories():
     cursor.execute(sql.format(args))
     categories = cursor.fetchall()
 
-    result = []
-    for cat in categories:
-        result.append(cat[0])
-
-    return result
+    return categories
 
 
 def insert_transaction(data):
