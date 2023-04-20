@@ -44,7 +44,7 @@ default_status = {
     "date": datetime.now()
 }
 
-status = default_status
+status = default_status.copy()
 
 default_category_status = {
     "last_request": "idle",
@@ -52,7 +52,7 @@ default_category_status = {
     "type": ""
 }
 
-category_status = default_category_status
+category_status = default_category_status.copy()
 
 
 async def base_operation(update: Update, context: ContextTypes.DEFAULT_TYPE, direction: bool):
@@ -209,8 +209,10 @@ async def reset(update: Update, context: ContextTypes.DEFAULT_TYPE):
     global category_status
     global status
     global last_handler
-    category_status = default_category_status
-    status = default_status
+    category_status = default_category_status.copy()
+    status = default_status.copy()
     last_handler = empty
 
-    await update.message.reply_text("Reset avvenuto con successo!")
+    reply_markup = ReplyKeyboardMarkup([], resize_keyboard=True, one_time_keyboard=True)
+
+    await update.message.reply_text("Reset avvenuto con successo!", reply_markup=reply_markup)
