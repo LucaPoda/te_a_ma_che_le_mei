@@ -1,8 +1,9 @@
 from datetime import *
-
 from telegram import ForceReply, Update, KeyboardButton, ReplyKeyboardMarkup
 from telegram.ext import Application, CommandHandler, ContextTypes, MessageHandler, filters
 import db
+import excel
+import os
 
 
 async def empty(update: Update, context: ContextTypes.DEFAULT_TYPE):
@@ -199,6 +200,23 @@ async def list_categories(update: Update, context: ContextTypes.DEFAULT_TYPE):
     for c in db.get_all_categories():
         res += c[0] + " - " + c[1] + "\n"
     await update.message.reply_text(res)
+
+
+async def summary(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    await update.message.reply_text("Generating document...")
+    for file in os.listdir('.'):
+        if file.__contains__(".xlsx"):
+            os.remove(file)
+
+    excel.generate_summary()
+
+    await update.message.reply_text("Document ready...")
+    chat_id = update.message.chat_id
+    for file in os.listdir('.'):
+        if file.__contains__(".xlsx"):
+            document = open(file, 'rb')
+            await update.message.reply_document(document)
+
 
 
 async def help(update: Update, context: ContextTypes.DEFAULT_TYPE):
